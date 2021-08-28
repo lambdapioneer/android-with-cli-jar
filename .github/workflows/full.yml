@@ -20,9 +20,9 @@ jobs:
           cache: gradle
 
       - name: Test with Gradle
-          run: |
-            chmod +x gradlew
-            ./gradlew :lib:test
+        run: |
+          chmod +x gradlew
+          ./gradlew :lib:test
 
   test_cli_jar:
     needs: test_lib
