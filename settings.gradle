@@ -1,0 +1,4 @@
+rootProject.name = "DroidJar"
+include ':app'
+include ':cli'
+include ':lib'

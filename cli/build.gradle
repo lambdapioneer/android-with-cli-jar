@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+java {
+    sourceCompatibility = 'VERSION_1_8'
+    targetCompatibility = 'VERSION_1_8'
+}
+
+mainClassName = 'org.example.droidjar.cli.CliMain'
+
+dependencies {
+    implementation project(':lib')
+
+    // 3rd party dependency to make sure they are properly bundled in the .jar
+    implementation 'info.picocli:picocli:4.2.0'
+    annotationProcessor 'info.picocli:picocli-codegen:4.2.0'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+
+    // this bundles the dependencies with the .jar (also known as FatJar)
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

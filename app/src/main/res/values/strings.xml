@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DroidJar</string>
+    <string name="default_edit_text">Hello</string>
+    <string name="count_unique_letters">Count unique letters</string>
+    <string name="hint_edit_text">Enter any word or character sequence.</string>
+    <string name="output_text">The string \"%s\" contains %d unique characters.</string>
+</resources>
