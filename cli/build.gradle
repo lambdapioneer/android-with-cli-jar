@@ -4,8 +4,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = 'VERSION_1_8'
-    targetCompatibility = 'VERSION_1_8'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 mainClassName = 'org.example.droidjar.cli.CliMain'
@@ -19,6 +19,11 @@ dependencies {
 }
 
 jar {
+    // required to make sure that :lib generates a .jar we can include
+    dependsOn {
+        ':lib:jar'
+    }
+
     manifest {
         attributes 'Main-Class': mainClassName
     }
