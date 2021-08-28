@@ -42,7 +42,7 @@ jobs:
           chmod +x gradlew
           ./gradlew :cli:jar
       - name: Run .jar and compare output
-        run: 'java -jar ./cli/build/libs/cli.jar "Hello" | grep "characters: 8"'
+        run: 'java -jar ./cli/build/libs/cli.jar "Hello" | grep "characters: 4"'
 
   test_app_unit:
     needs: test_lib
