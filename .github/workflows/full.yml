@@ -1,0 +1,85 @@
+name: Full CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test_lib:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Test with Gradle
+          run: |
+            chmod +x gradlew
+            ./gradlew :lib:test
+
+  test_cli_jar:
+    needs: test_lib
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Build .jar with Gradle
+        run: |
+          chmod +x gradlew
+          ./gradlew :cli:jar
+      - name: Run .jar and compare output
+        run: 'java -jar ./cli/build/libs/cli.jar "Hello" | grep "characters: 8"'
+
+  test_app_unit:
+    needs: test_lib
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Test with Gradle
+        run: |
+          chmod +x gradlew
+          ./gradlew :app:test
+
+
+  build_app:
+    needs: test_app_unit
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Build .apk with Gradle
+        run: |
+          chmod +x gradlew
+          ./gradlew :app:assembleDebug
+
+    # TODO: add instrumentation test execution
+    
