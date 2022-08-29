@@ -4,8 +4,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 mainClassName = 'org.example.droidjar.cli.CliMain'
@@ -32,4 +32,7 @@ jar {
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+
+    // otherwise it complains about `META-INF/versions/9/module-info.class`
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
